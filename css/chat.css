@@ -1,0 +1,391 @@
+.chat-container {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-container.active {
+    display: flex;
+}
+
+.chat-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* background-color: var(--bg-color); */
+    padding: 1.5rem 3rem 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin: 0 auto;
+    padding: 7rem 3rem 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 48rem;
+}
+
+.chat-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-color);
+    padding: 1.5rem 3rem;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 48rem;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 100%;
+}
+
+.message.ai {
+    align-self: flex-start;
+}
+
+.message.ai .message-avatar {
+    display: none;
+}
+
+.message.you {
+    align-self: flex-start;
+    background: #AE8F75;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.message.you .message-avatar {
+    background: #323232;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    font-family: 'Nyght Serif';
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 100;
+    font-style: italic;
+    letter-spacing: -0.02em;
+}
+
+.message-avatar {
+    width: 2rem;
+    height: 2rem;
+    background: #FFF3EA;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Satoshi Variable';
+    font-size: 0.75rem;
+    color: #764823;
+    flex-shrink: 0;
+}
+
+.message-content {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.message.ai .message-content {
+    background: #FFF3EA;
+    padding: 1rem;
+    border-radius: 12px;
+    color: #764823;
+    margin-left: 0;
+}
+
+.chat-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--text-color-primary);
+    border-radius: 16px;
+    background: #FFF3EA;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    color: var(--text-color-primary);
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+.start-new-chat {
+    position: static;
+    background: var(--button-bg);
+    border: 1px solid var(--text-color-primary);
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color-primary);
+    transition: all 0.2s ease;
+}
+
+.start-new-chat:hover {
+    background: #E29859;
+    color: white;
+    border-color: transparent;
+}
+
+/* Add loading indicator */
+.odyssey-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    color: var(--text-color-tertiary);
+    font-family: 'Satoshi Variable';
+    font-size: 0.875rem;
+}
+
+.odyssey-loading img {
+    width: 1rem;
+    height: 1rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #FFF3EA;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.typing-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #764823;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: typingAnimation 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+    30% { opacity: 1; transform: scale(1.1); }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(174, 143, 117, 0.2);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 32rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal-title {
+    font-family: 'Nyght Serif';
+    font-style: normal;
+    font-weight: 100;
+    font-size: 1.25rem;
+    color: #764823;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ECE4DE;
+    margin-bottom: -0.5rem;
+}
+
+.modal-content {
+    font-family: 'Satoshi Variable';
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #764823;
+    line-height: 1.5;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #AE8F75;
+    border-radius: 12px;
+    background: #F9F3EF;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    color: #764823;
+    margin-top: 1rem;
+    transition: all 0.2s ease;
+}
+
+.modal-input.error {
+    background: #F3CCCC;
+    border-color: #EC5757;
+}
+
+.error-message {
+    display: none;
+    align-items: center;
+    gap: 0.1rem;
+    color: #EC5757;
+    font-family: 'Satoshi Variable';
+    font-size: 0.875rem;
+    padding-top: 0.25rem;
+    margin-top: -1rem;
+}
+
+.error-message.visible {
+    display: flex;
+}
+
+.error-message img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.modal-input:focus {
+    outline: none;
+}
+
+.modal-submit {
+    align-self: flex-end;
+    background: #E29859;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-submit:hover {
+    background: #9F8576;
+}
+
+/* Add these media queries at the end of the file */
+@media screen and (max-width: 768px) {
+    .chat-header {
+        padding: 1rem 1.5rem 0.75rem 1.5rem;
+    }
+
+    .messages-container {
+        padding: 5rem 1.5rem 7rem;
+    }
+
+    .chat-footer {
+        padding: 1rem 1.5rem;
+    }
+
+    .start-new-chat {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .modal {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .modal-content {
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .message.you {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .message.ai .message-content {
+        padding: 0.75rem;
+    }
+
+    .message-content {
+        font-size: 0.875rem;
+    }
+
+    .chat-input {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .modal-title {
+        font-size: 1rem;
+    }
+
+    .modal-content {
+        font-size: 1rem;
+    }
+
+    .modal-input {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .modal-submit {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}

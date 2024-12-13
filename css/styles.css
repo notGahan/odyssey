@@ -1,0 +1,229 @@
+@font-face {
+    font-family: 'Nyght Serif';
+    src: url('../assets/fonts/NyghtSerif/NyghtSerif-LightItalic.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Satoshi Variable';
+    src: url('../assets/fonts/Satoshi/Satoshi-Variable.ttf') format('ttf');
+    font-weight: 300 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Instrument Serif Regular';
+    src: url('../assets/fonts/InstrumentSerif/InstrumentSerif-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Instrument Serif Italic';
+    src: url('../assets/fonts/InstrumentSerif/InstrumentSerif-Italic.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg-color: #F1DFCF;
+    --text-color-primary: #AE8F75;
+    --text-color-secondary: #764823;
+    --text-color-tertiary: #AE8F75;
+    --button-bg: #FFF3EA;
+    --button-active: #9F8576;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color-primary);
+    font-family: 'Satoshi Variable', sans-serif;
+    min-height: 100vh;
+    padding: 2.5rem 3rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    width: 2.5rem;
+    /* height: 2.5rem; */
+    /* border: 1px solid red; */
+    display: block; /* This will help us see if it's loading at all */
+}
+
+.logo-wordmark {
+    font-family: 'Nyght Serif';
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-color-secondary);
+}
+
+.waiting-text {
+    font-family: 'Satoshi Variable';
+    color: var(--text-color-secondary);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    margin-top: 10rem;
+}
+
+.question-container, .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.input-container {
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+}
+
+.input-container.active {
+    opacity: 1;
+}
+
+.step {
+    font-family: 'Instrument Serif';
+    color: #764823;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    align-self: center;
+}
+
+h1, h2 {
+    font-family: 'Nyght Serif';
+    font-size: 3rem;
+    font-weight: normal;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    font-style: italic;
+    color: #764823;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.style-btn {
+    background-color: var(--button-bg);
+    border: 1px solid var(--text-color-primary);
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-color);
+}
+
+.style-btn.active {
+    background-color: var(--button-active);
+    color: white;
+    border: none;
+}
+
+.input-wrapper {
+    width: 100%;
+    max-width: 31.25rem;
+}
+
+.input-container-with-prefix {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--button-bg);
+    border: 1px solid var(--text-color-primary);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.input-prefix {
+    color: var(--text-color-primary);
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+#questionInput {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Satoshi Variable';
+    font-size: 1rem;
+    color: var(--text-color-primary);
+    margin-left: 4px;
+}
+
+#questionInput:disabled {
+    opacity: 0.5;
+}
+
+#questionInput:focus {
+    outline: none;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 1.5rem;
+    }
+
+    main {
+        margin-top: 5rem;
+        gap: 3rem;
+    }
+
+    h1, h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+        max-width: 20rem;
+    }
+
+    .style-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .waiting-text {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo-wordmark {
+        font-size: 1.25rem;
+    }
+
+    .logo-icon {
+        width: 2rem;
+    }
+} 
